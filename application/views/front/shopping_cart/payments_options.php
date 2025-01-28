@@ -25,8 +25,18 @@
 
     <div class="row">
 
-        <?php if($phonepay_set == 'ok'){ ?>
         <div class="cc-selector col-sm-3">
+            <input id="visa" type="radio" style="display:block;" checked name="payment_type" value="icicibank" />
+            <label class="drinkcard-cc" style="margin-bottom:0px; width:100%; overflow:hidden; " for="visa"
+                onclick="radio_check('visa')">
+                <img src="<?php echo base_url(); ?>template/front/img/ICICI-Bank.jpg" width="100%"
+                    height="60%" style=" text-align-last:center;" alt="ICICI BANK" />
+
+            </label>
+        </div>
+
+        <?php if($phonepay_set == 'ok'){ ?>
+        <!-- <div class="cc-selector col-sm-3">
             <input id="visa" type="radio" style="display:block;" checked name="payment_type" value="phonepay" />
             <label class="drinkcard-cc" style="margin-bottom:0px; width:100%; overflow:hidden; " for="visa"
                 onclick="radio_check('visa')">
@@ -34,7 +44,7 @@
                     height="100%" style=" text-align-last:center;" alt="Phone Pay" />
 
             </label>
-        </div>
+        </div> -->
         <?php } ?>
 
         <!-- <?php if($p_set == 'ok'){ ?>

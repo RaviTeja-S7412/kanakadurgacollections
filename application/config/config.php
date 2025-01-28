@@ -439,6 +439,7 @@ $config['csrf_regenerate'] 		= FALSE;
 $config['csrf_exclude_uris'] 	= array('home/paypal_success',
 									'home/paypal_ipn',
 									'home/phone_pay_success',
+									'home/icicipayProcesssale',
 									'admin/paypal_success',
 									'admin/paypal_ipn',
 									'vendor/paypal_success',
