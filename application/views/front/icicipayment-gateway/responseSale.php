@@ -79,65 +79,82 @@ if( $SecureHash_final == $SecureHash )
 
 if($hashValidated == 'CORRECT') {
 
+	if($resData["ResponseCode"] == "00"){
 
-	$carted  = $this->cart->contents();
+		$carted  = $this->cart->contents();
+		$sale_id = $this->session->userdata('sale_id');
+		$guest_id = $this->crud_model->get_type_name_by_id('sale', $sale_id, 'guest_id');
+		
+		$sale_id = $this->session->userdata('sale_id');
+		$data1['payment_timestamp'] = strtotime(date("m/d/Y"));
+		$data1['payment_details']   = json_encode($resData);
+
+		$this->db->where('sale_id', $sale_id);
+		$this->db->update('sale', $data1);
+		
+		$vendors = $this->crud_model->vendors_in_sale($sale_id);
+		$delivery_status = array();
+		$payment_status = array();
+		foreach ($vendors as $p) {
+			$delivery_status[] = array('vendor'=>$p,'status'=>'pending','comment'=> '','delivery_time'=>'');
+			$payment_status[] = array('vendor'=>$p,'status'=>'paid');
+		}
+		if($this->crud_model->is_admin_in_sale($sale_id)){
+			$delivery_status[] = array('admin'=>'','status'=>'pending','comment'=> '','delivery_time'=>'');
+			$payment_status[] = array('admin'=>'','status'=>'paid');
+		}
+		$data1['sale_code'] = date('Ym', $data1['sale_datetime']) . $sale_id;
+		$data1['delivery_status'] = json_encode($delivery_status);
+		$data1['payment_status'] = json_encode($payment_status);
+
+		$this->db->where('sale_id', $sale_id);
+		$this->db->update('sale', $data1);
+		
+		foreach ($carted as $value) {
+			$this->crud_model->decrease_quantity($value['id'], $value['qty']);
+			$data2['type']         = 'destroy';
+			$data2['category']     = $this->db->get_where('product', array(
+				'product_id' => $value['id']
+			))->row()->category;
+			$data2['sub_category'] = $this->db->get_where('product', array(
+				'product_id' => $value['id']
+			))->row()->sub_category;
+			$data2['product']      = $value['id'];
+			$data2['quantity']     = $value['qty'];
+			$data2['total']        = 0;
+			$data2['reason_note']  = 'sale';
+			$data2['sale_id']      = $sale_id;
+			$data2['datetime']     = time();
+			$this->db->insert('stock', $data2);
+		}
+		$this->crud_model->digital_to_customer($sale_id);
+		$this->cart->destroy();
+		$this->session->set_userdata('couponer','');
+		$this->email_model->email_invoice($sale_id);
+		$this->session->set_userdata('sale_id', '');
+		if ($this->session->userdata('user_login') == 'yes') {
+			redirect(base_url() . 'home/invoice/' . $sale_id, 'refresh');
+		}
+		else {
+			redirect(base_url() . 'home/guest_invoice/' . $guest_id, 'refresh');
+		}
+
+	}else{
+		$sale_id = $this->session->userdata('sale_id');
+        $this->db->where('sale_id', $sale_id);
+        $this->db->delete('sale');
+        $this->session->set_userdata('sale_id', '');
+        $this->session->set_flashdata('alert', 'Payment Failed');
+        redirect(base_url().'home/cart_checkout', 'refresh');
+	}
+
+}else{
 	$sale_id = $this->session->userdata('sale_id');
-	$guest_id = $this->crud_model->get_type_name_by_id('sale', $sale_id, 'guest_id');
-	
-	$sale_id = $this->session->userdata('sale_id');
-	$data1['payment_timestamp'] = strtotime(date("m/d/Y"));
-	$data1['payment_details']   = json_encode($resData);
-
 	$this->db->where('sale_id', $sale_id);
-	$this->db->update('sale', $data1);
-	
-	$vendors = $this->crud_model->vendors_in_sale($sale_id);
-	$delivery_status = array();
-	$payment_status = array();
-	foreach ($vendors as $p) {
-		$delivery_status[] = array('vendor'=>$p,'status'=>'pending','comment'=> '','delivery_time'=>'');
-		$payment_status[] = array('vendor'=>$p,'status'=>'paid');
-	}
-	if($this->crud_model->is_admin_in_sale($sale_id)){
-		$delivery_status[] = array('admin'=>'','status'=>'pending','comment'=> '','delivery_time'=>'');
-		$payment_status[] = array('admin'=>'','status'=>'paid');
-	}
-	$data1['sale_code'] = date('Ym', $data1['sale_datetime']) . $sale_id;
-	$data1['delivery_status'] = json_encode($delivery_status);
-	$data1['payment_status'] = json_encode($payment_status);
-
-	$this->db->where('sale_id', $sale_id);
-	$this->db->update('sale', $data1);
-	
-	foreach ($carted as $value) {
-		$this->crud_model->decrease_quantity($value['id'], $value['qty']);
-		$data2['type']         = 'destroy';
-		$data2['category']     = $this->db->get_where('product', array(
-			'product_id' => $value['id']
-		))->row()->category;
-		$data2['sub_category'] = $this->db->get_where('product', array(
-			'product_id' => $value['id']
-		))->row()->sub_category;
-		$data2['product']      = $value['id'];
-		$data2['quantity']     = $value['qty'];
-		$data2['total']        = 0;
-		$data2['reason_note']  = 'sale';
-		$data2['sale_id']      = $sale_id;
-		$data2['datetime']     = time();
-		$this->db->insert('stock', $data2);
-	}
-	$this->crud_model->digital_to_customer($sale_id);
-	$this->cart->destroy();
-	$this->session->set_userdata('couponer','');
-	$this->email_model->email_invoice($sale_id);
+	$this->db->delete('sale');
 	$this->session->set_userdata('sale_id', '');
-	if ($this->session->userdata('user_login') == 'yes') {
-		redirect(base_url() . 'home/invoice/' . $sale_id, 'refresh');
-	}
-	else {
-		redirect(base_url() . 'home/guest_invoice/' . $guest_id, 'refresh');
-	}
-
+	$this->session->set_flashdata('alert', 'Payment Failed');
+	redirect(base_url().'home/cart_checkout', 'refresh');
 }
 
 ?>

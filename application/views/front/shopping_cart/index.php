@@ -16,6 +16,7 @@ echo form_open(base_url() . 'home/cart_finish/go', array(
             <?php echo translate('1');?>. 
             <?php echo translate('orders');?>
         </h3>
+        <? if($this->session->flashdata("alert")){ ?><div class="alert alert-danger"><? echo $this->session->flashdata("alert") ?></div><? } ?>
         <div class="row orders">
 
         </div>

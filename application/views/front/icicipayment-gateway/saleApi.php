@@ -1,7 +1,8 @@
-    <script src="./lib/jquery.min.js"></script> 
-    <script src="./lib/jquery.validate.min.js"></script> 
-    <script src="./lib/additional-methods.min.js"></script>
-    <script src="./lib/validation.js"></script>
+<? require_once('lib/config.php'); ?>
+<script src="./lib/jquery.min.js"></script> 
+<script src="./lib/jquery.validate.min.js"></script> 
+<script src="./lib/additional-methods.min.js"></script>
+<script src="./lib/validation.js"></script>
 <? 
     $cinfo = json_decode($odata->shipping_address);
 ?>
@@ -11,8 +12,8 @@
         <input class="textbox"type="hidden" name="TxnRefNo" id="TxnRefNo" value="<? echo strtotime(date("Y-m-d H:i:s")) ?>" required />
         <input class="textbox"type="hidden"  name="Amount" id="Amount" value="<? echo $odata->grand_total ?>" pattern="[1-9]\d*(\.\d+)?" title="Please enter a number greater than or equal to 1" size="40" maxlength="12" required />
         <input class="textbox"type="hidden"  name="Currency" id="Currency" value="356" size="50" maxlength="40" required />
-        <input class="textbox"type="hidden"  name="MerchantId" id="MerchantId" value="100000000005837" required />
-        <input class="textbox"type="hidden"  name="TerminalId" id="TerminalId" value="EG000481" required />
+        <input class="textbox"type="hidden"  name="MerchantId" id="MerchantId" value="<? echo MERCHANTID ?>" required />
+        <input class="textbox"type="hidden"  name="TerminalId" id="TerminalId" value="<? echo TERMINALID ?>" required />
         <input class="textbox"type="hidden"  name="TxnType" id="TxnType" value="Pay"  readonly="readonly" required />
         <input class="textbox"type="hidden"  name="OrderInfo" id="OrderInfo" value="ORD00000<? echo $odata->sale_id ?>" />
         <input class="textbox"type="hidden"  name="Email" id="Email" value="<? echo $cinfo->email ?>"/>
