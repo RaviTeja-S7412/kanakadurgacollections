@@ -2470,6 +2470,7 @@ class Admin extends CI_Controller
             $data['payment_status']  = json_encode($new_payment_status);
             $data['delivery_status'] = json_encode($new_delivery_status);
             $data['payment_details'] = $this->input->post('payment_details');
+            $data['tracking_id'] = $this->input->post('tracking_id');
             $this->db->where('sale_id', $para2);
             $this->db->update('sale', $data);
         } elseif ($para1 == 'add') {

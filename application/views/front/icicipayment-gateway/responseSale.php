@@ -22,13 +22,13 @@ $terminalId = $jsonData['TerminalId'];
 
 if($bankID == "" || $merchantId == "" || $terminalId == "" || $EncData == "")
 {
-	echo "Invalid data";
-	exit;
+	$this->session->set_flashdata('alert', 'Invalid Data');
+    redirect(base_url().'home/cart_checkout', 'refresh');
 }
 if(empty($bankID) || empty($merchantId) || empty($terminalId) || empty($EncData) )
 {
-	echo "Invalid data";
-	exit;
+	$this->session->set_flashdata('alert', 'Invalid Data');
+    redirect(base_url().'home/cart_checkout', 'refresh');
 }
 
 $fomattedEncData = str_replace(" ", "+", $EncData);
@@ -142,7 +142,7 @@ if($hashValidated == 'CORRECT') {
 	}else{
 		$sale_id = $this->session->userdata('sale_id');
         $this->db->where('sale_id', $sale_id);
-        $this->db->delete('sale');
+        $this->db->update('sale', ["payment_details"=>json_encode($resData)]);
         $this->session->set_userdata('sale_id', '');
         $this->session->set_flashdata('alert', 'Payment Failed');
         redirect(base_url().'home/cart_checkout', 'refresh');

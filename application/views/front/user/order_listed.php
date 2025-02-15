@@ -11,6 +11,12 @@
 			<?php echo date('d M Y',$row1['sale_datetime']); ?>
 		</td>
 		<td class="description">
+			<?php echo '#'.$row1['sale_code']; ?>
+		</td>
+		<td class="description">
+		<?php echo $row1['tracking_id'] !== "" ? '<a href="https://www.dtdc.in/trace.asp" target="_blank">'.$row1['tracking_id'].'</a>' : ''; ?>
+		</td>
+		<td class="description">
 			<?php echo currency($row1['grand_total']); ?>
 		</td>
 		<td class="order-id">

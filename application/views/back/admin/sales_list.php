@@ -1,10 +1,11 @@
-<div class="panel-body" id="demo_s">
+<div class="panel-body table-responsive" id="demo_s">
     <table id="demo-table" class="table table-striped"  data-pagination="true" data-show-refresh="true"  data-show-toggle="true" data-show-columns="true" data-search="true" >
 
         <thead>
             <tr>
                 <th style="width:4ex"><?php echo translate('ID');?></th>
                 <th><?php echo translate('sale_code');?></th>
+                <th><?php echo 'Tracking ID';?></th>
                 <th><?php echo translate('buyer');?></th>
                 <th><?php echo translate('date');?></th>
                 <th><?php echo translate('total');?></th>
@@ -23,6 +24,7 @@
         <tr class="<?php if($row['viewed'] !== 'ok'){ echo 'pending'; } ?>" >
             <td><?php echo $i; ?></td>
             <td>#<?php echo $row['sale_code']; ?></td>
+            <td><?php echo $row['tracking_id']; ?></td>
             <td><?php if($row['buyer'] == 'guest'){ echo '<b class="text-info">Guest</b>';} else{echo $this->db->get_where('user', array('user_id' => $row['buyer']))->row()->username;} ?></td>
             <td><?php echo date('d-m-Y',$row['sale_datetime']); ?></td>
             <td class="pull-right"><?php echo currency('','def').$this->cart->format_number($row['grand_total']); ?></td>

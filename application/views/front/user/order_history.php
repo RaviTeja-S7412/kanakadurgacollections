@@ -4,12 +4,14 @@
             <?php echo translate('your_order_history');?>
         </div>
         <div class="details-wrap">                                    
-            <div class="details-box orders">
+            <div class="details-box orders table-responsive">
                 <table class="table">
                     <thead>
                         <tr>
                             <th>#</th>
                             <th><?php echo translate('date');?></th>
+                            <th><?php echo translate('sale_code');?></th>
+                            <th><?php echo 'Tracking ID';?></th>
                             <th><?php echo translate('amount');?></th>
                             <th><?php echo translate('payment_status');?></th>
                             <th><?php echo translate('delivery_status');?></th>

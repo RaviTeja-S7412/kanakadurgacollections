@@ -11,37 +11,37 @@
 			<?php
                 if($payment_status !== ''){
             ?>
-                <div class="form-group">
-                    <label class="col-sm-4 control-label" for="demo-hor-1"><?php echo translate('payment_status'); ?></label>
-                        <div class="col-sm-6">
+                <!-- <div class="form-group">
+                    <label class="col-sm-4 control-label" for="demo-hor-1"><?php //echo translate('payment_status'); ?></label>
+                        <div class="col-sm-6"> -->
                         <?php
-                            if($payment_type == 'cash_on_delivery'){
+                            //if($payment_type == 'cash_on_delivery'){
                         ?>
                             <?php
-                                $from = array('due','paid');
-                                echo $this->crud_model->select_html($from,'payment_status','','edit','demo-chosen-select',$payment_status);
+                                // $from = array('due','paid');
+                                // echo $this->crud_model->select_html($from,'payment_status','','edit','demo-chosen-select',$payment_status);
                             ?>	
                         <?php
-                            } else if($payment_type == 'paypal' || $payment_type == 'stripe' || $payment_type == 'c2' || $payment_type == 'wallet'){
+                            // } else if($payment_type == 'paypal' || $payment_type == 'stripe' || $payment_type == 'c2' || $payment_type == 'wallet'){
                         ?>
-                            <input type="text" class="form-control" name="payment_status" value="<?php echo $payment_status; ?>" readonly />
+                            <input type="hidden" class="form-control" name="payment_status" value="<?php echo $payment_status; ?>" readonly />
                         <?php
-                            }
+                            //}
                         ?>
-                        </div>
-                </div>
+                       <!-- </div>
+                </div> -->
             <?php
             	}
             ?>
             <?php
                 if($payment_status !== ''){
             ?>
-            <div class="form-group">
-                <label class="col-sm-4 control-label" for="demo-hor-3"><?php echo translate('payment_details'); ?></label>
-                <div class="col-sm-6">
-                    <textarea name="payment_details" class="form-control" <?php if($payment_type == 'paypal' || $payment_type == 'stripe'){ ?>readonly<?php } ?> rows="10"><?php echo $payment_details; ?></textarea>
-                </div>
-            </div>
+            <!-- <div class="form-group">
+                <label class="col-sm-4 control-label" for="demo-hor-3"><?php //echo translate('payment_details'); ?></label>
+                <div class="col-sm-6"> -->
+                    <textarea hidden="hidden" name="payment_details" class="form-control" <?php if($payment_type == 'paypal' || $payment_type == 'stripe'){ ?>readonly<?php } ?> rows="10" style="display:none"><?php echo $payment_details; ?></textarea>
+                <!-- </div>
+            </div> -->
             <?php
                 }else{
             ?>
@@ -60,10 +60,16 @@
                 if($delivery_status !== ''){
             ?>
                 <div class="form-group">
+                    <label class="col-sm-4 control-label" for="demo-hor-2"><?php echo 'Tracking ID' ?></label>
+                    <div class="col-sm-6">
+                        <input type="text" class="form-control" name="tracking_id"><?php echo $comment; ?></textarea>
+                    </div>
+                </div>
+                <div class="form-group">
                     <label class="col-sm-4 control-label" for="demo-hor-2"><?php echo translate('delivery_status'); ?></label>
                     <div class="col-sm-6">
                         <?php
-                            $from = array('pending','on_delivery','delivered');
+                            $from = array('pending','dispatched', 'out_for_delivery','delivered');
                             echo $this->crud_model->select_html($from,'delivery_status','','edit','demo-chosen-select',$delivery_status);
                         ?>
                     </div>

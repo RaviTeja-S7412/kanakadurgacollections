@@ -17,12 +17,12 @@
         <input class="textbox"type="hidden"  name="TxnType" id="TxnType" value="Pay"  readonly="readonly" required />
         <input class="textbox"type="hidden"  name="OrderInfo" id="OrderInfo" value="ORD00000<? echo $odata->sale_id ?>" />
         <input class="textbox"type="hidden"  name="Email" id="Email" value="<? echo $cinfo->email ?>"/>
-        <input class="textbox" type="hidden"  name="FirstName" id="FirstName" value="<? echo $cinfo->firstname ?>"/>
-        <input class="textbox" type="hidden"  name="LastName" id="LastName" value="<? echo $cinfo->lastname ?>"/>
-        <input class="textbox" type="hidden"  name="Street" id="Street" value="<? echo $cinfo->address1 ?>"/>
-        <input class="textbox" type="hidden"  name="City" id="City" value="<? echo $cinfo->address2 ?>"/>
+        <input class="textbox" type="hidden"  name="FirstName" id="FirstName" value="<? //echo $cinfo->firstname ?>"/>
+        <input class="textbox" type="hidden"  name="LastName" id="LastName" value="<? //echo $cinfo->lastname ?>"/>
+        <input class="textbox" type="hidden"  name="Street" id="Street" value="<? //echo $cinfo->address1 ?>"/>
+        <input class="textbox" type="hidden"  name="City" id="City" value="<? //echo $cinfo->address2 ?>"/>
         <input class="textbox" type="hidden"  name="State" id="State" value="Telangana"/>
-        <input class="textbox" type="hidden"  name="ZIP" id="ZIP" value="<? echo $cinfo->zip ?>"/>
+        <input class="textbox" type="hidden"  name="ZIP" id="ZIP" value="<? //echo $cinfo->zip ?>"/>
         <input class="textbox" type="hidden"  name="Phone" id="Phone" value="<? echo $cinfo->phone ?>" size="10" pattern="[0-9]{10}" maxlength="10"/>
         
         <input class="textbox"type="hidden"  name="UDF01" id="UDF01" value=""/>
